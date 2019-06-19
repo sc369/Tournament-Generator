@@ -1,0 +1,49 @@
+﻿@model TournamentGenerator.Models.ViewModels.TournamentViewModels.CreateTournament
+@{
+    ViewData["Title"] = "Create Tournament";
+}
+<h1>Create</h1>
+
+<h4>Tournament</h4>
+<hr />
+<form asp-action="Create">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="Name" class="control-label"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Date" class="control-label"></label>
+        <input asp-for="Date" class="form-control" />
+        <span asp-validation-for="Date" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Location" class="control-label"></label>
+        <input asp-for="Location" class="form-control" />
+        <span asp-validation-for="Location" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="NumberOfRounds" class="control-label"></label>
+        <input asp-for="NumberOfRounds" class="form-control" />
+        <span asp-validation-for="NumberOfRounds" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="NumberOfPlayers" class="control-label"></label>
+        <input asp-for="NumberOfPlayers" class="form-control" />
+        <span asp-validation-for="NumberOfPlayers" class="text-danger"></span>
+    </div>
+    <div>
+        <input type="submit" value="Create" class="btn btn-primary" />
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@*@section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }*@
+
+
