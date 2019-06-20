@@ -29,6 +29,10 @@ namespace TournamentGenerator.Controllers
         public async Task<IActionResult> IndexUncompleted()
         {
             var applicationDbContext = _context.Games.Include(g => g.PhysicalTable).Include(g => g.PlayerOne).Include(g => g.PlayerTwo).Include(g => g.Round).Where(g => g.PlayerOneScore == 0 && g.PlayerTwoScore == 0);
+
+            if (applicationDbContext.Count() == 0)
+                return View("GenerateRound");
+
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -95,6 +99,13 @@ namespace TournamentGenerator.Controllers
 
             var game = await _context.Games.FindAsync(id);
             viewModel.Game = new Game() { };
+
+            var players = await _context.Players.ToListAsync();
+            var playerOne = players.SingleOrDefault(p => p.Id == game.PlayerOneId);
+            var playerTwo = players.SingleOrDefault(p => p.Id == game.PlayerTwoId);
+
+            game.PlayerOne = playerOne;
+            game.PlayerTwo = playerTwo; 
 
             if (game == null)
             {

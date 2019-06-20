@@ -31,33 +31,46 @@ namespace TournamentGenerator.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
-                var user = await GetCurrentUserAsync();               
+                var user = await GetCurrentUserAsync();
                 var applicationDbContext = _context.Tournaments.Include(t => t.User).Where(t => t.userId == user.Id);
                 return View(await applicationDbContext.ToListAsync());
-            } else
-            {
-                return View();
             }
-        }    
-
-    // GET: Tournaments/Details/5
-    public async Task<IActionResult> Details(int? id)
-    {
-        if (id == null)
-        {
-            return NotFound();
+            else
+            {
+                var tournaments = await _context.Tournaments.ToListAsync();
+                return View(tournaments);
+            }
         }
 
-        var tournament = await _context.Tournaments
-            .Include(t => t.User)
-            .FirstOrDefaultAsync(m => m.Id == id);
-        if (tournament == null)
+        public async Task<IActionResult> SetActiveTournament(int? id)
         {
-            return NotFound();
+            var tournament = await _context.Tournaments
+                .Include(t => t.User)
+                .FirstOrDefaultAsync(m => m.Id == id);
+
+            var tournaments = await _context.Tournaments.ToListAsync();
+            TournamentState.currentTournament = tournament;
+            return View("Index", tournaments);
         }
 
-        return View(tournament);
-    }
+        // GET: Tournaments/Details/5
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var tournament = await _context.Tournaments
+                .Include(t => t.User)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (tournament == null)
+            {
+                return NotFound();
+            }
+
+            return View(tournament);
+        }
 
         //// GET: Tournaments/Create
         //public IActionResult Create()
@@ -89,6 +102,8 @@ namespace TournamentGenerator.Controllers
         {
             return View("CreateTournament");
         }
+
+
 
         // POST: Tournaments/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -127,8 +142,6 @@ namespace TournamentGenerator.Controllers
 
             var players = await _context.Players.ToListAsync();
             var unassignedPlayers = players.Where(p => p.MyGames == null && p.TheirGames == null).ToList();
-
-            unassignedPlayers.ForEach(TournamentState.addPlayer);
 
             foreach (var item in TournamentState.currentPlayers)
             {
@@ -208,90 +221,90 @@ namespace TournamentGenerator.Controllers
 
         // GET: Tournaments/Edit/5
         public async Task<IActionResult> Edit(int? id)
-    {
-        if (id == null)
         {
-            return NotFound();
-        }
-
-        var tournament = await _context.Tournaments.FindAsync(id);
-        if (tournament == null)
-        {
-            return NotFound();
-        }
-        ViewData["userId"] = new SelectList(_context.Users, "Id", "Id", tournament.userId);
-        return View(tournament);
-    }
-
-    // POST: Tournaments/Edit/5
-    // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-    // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int id, [Bind("Id,userId,Name,Date,Location,NumberOfRounds")] Tournament tournament)
-    {
-        if (id != tournament.Id)
-        {
-            return NotFound();
-        }
-
-        if (ModelState.IsValid)
-        {
-            try
+            if (id == null)
             {
-                _context.Update(tournament);
-                await _context.SaveChangesAsync();
+                return NotFound();
             }
-            catch (DbUpdateConcurrencyException)
+
+            var tournament = await _context.Tournaments.FindAsync(id);
+            if (tournament == null)
             {
-                if (!TournamentExists(tournament.Id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return NotFound();
             }
+            ViewData["userId"] = new SelectList(_context.Users, "Id", "Id", tournament.userId);
+            return View(tournament);
+        }
+
+        // POST: Tournaments/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("Id,userId,Name,Date,Location,NumberOfRounds")] Tournament tournament)
+        {
+            if (id != tournament.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(tournament);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!TournamentExists(tournament.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["userId"] = new SelectList(_context.Users, "Id", "Id", tournament.userId);
+            return View(tournament);
+        }
+
+        // GET: Tournaments/Delete/5
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var tournament = await _context.Tournaments
+                .Include(t => t.User)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (tournament == null)
+            {
+                return NotFound();
+            }
+
+            return View(tournament);
+        }
+
+        // POST: Tournaments/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var tournament = await _context.Tournaments.FindAsync(id);
+            _context.Tournaments.Remove(tournament);
+            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-        ViewData["userId"] = new SelectList(_context.Users, "Id", "Id", tournament.userId);
-        return View(tournament);
-    }
 
-    // GET: Tournaments/Delete/5
-    public async Task<IActionResult> Delete(int? id)
-    {
-        if (id == null)
+        private bool TournamentExists(int id)
         {
-            return NotFound();
+            return _context.Tournaments.Any(e => e.Id == id);
         }
-
-        var tournament = await _context.Tournaments
-            .Include(t => t.User)
-            .FirstOrDefaultAsync(m => m.Id == id);
-        if (tournament == null)
-        {
-            return NotFound();
-        }
-
-        return View(tournament);
     }
-
-    // POST: Tournaments/Delete/5
-    [HttpPost, ActionName("Delete")]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> DeleteConfirmed(int id)
-    {
-        var tournament = await _context.Tournaments.FindAsync(id);
-        _context.Tournaments.Remove(tournament);
-        await _context.SaveChangesAsync();
-        return RedirectToAction(nameof(Index));
-    }
-
-    private bool TournamentExists(int id)
-    {
-        return _context.Tournaments.Any(e => e.Id == id);
-    }
-}
 }

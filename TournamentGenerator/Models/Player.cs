@@ -21,7 +21,7 @@ namespace TournamentGenerator.Models
         public int ELO { get; set; }
 
         [NotMapped]
-        public double score { get; set; }
+        public double Score { get; set; }
 
         public ICollection<Game> MyGames { get; set; }
         public ICollection<Game> TheirGames { get; set; }

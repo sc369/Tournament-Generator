@@ -70,12 +70,14 @@ namespace TournamentGenerator.Controllers
             {
                 foreach (var player in players)
                 {
-                    if (game.PlayerOneId == player.Id)
+                    if (game.PlayerOneId == player.Id && !currentPlayers.Contains(player))
                     {
-                        currentPlayers.Add(player);
+                        {
+                            currentPlayers.Add(player);
+                        }
                     }
 
-                    if (game.PlayerTwoId == player.Id)
+                    if (game.PlayerTwoId == player.Id && !currentPlayers.Contains(player))
 
                     {
                         currentPlayers.Add(player);
@@ -104,43 +106,48 @@ namespace TournamentGenerator.Controllers
                 {
                     if (player.Id == game.PlayerOneId)
                     {
-                        player.score += game.PlayerOneScore;
+                        player.Score += game.PlayerOneScore;
                     }
                     if (player.Id == game.PlayerTwoId)
                     {
-                        player.score += game.PlayerTwoScore;
+                        player.Score += game.PlayerTwoScore;
                     }
                 };
             }
 
-            var orderedPlayers = currentPlayers.OrderByDescending(p => p.score).ToList();
-
-            int numberOfGames = orderedPlayers.Count / 2;
-
-            var bye = orderedPlayers.Find(p => p.FirstName == "Bye");
-
             //See if players have played before
 
-            var previousMatches = new Dictionary<int, int>();
+            var previousMatches = new List<Dictionary<int, int>>();
 
-            foreach (var game in currentGames)
+            for (int i = 0; i < currentGames.Count; i++)
             {
-                previousMatches.Add(game.PlayerOneId, game.PlayerTwoId);
+                previousMatches.Add(new Dictionary<int, int>());
+                previousMatches[i].Add(currentGames[i].PlayerOneId, currentGames[i].PlayerTwoId);
             }
 
             var currentMatches = new Dictionary<int, int>();
 
-            bool hasBeenMatched(int playerOneId, int playerTwoId)
+            bool haveBeenMatched(int playerOneId, int playerTwoId)
             {
-                if (previousMatches[playerOneId] == playerTwoId || previousMatches[playerTwoId] == playerOneId)
+                //foreach (var item in previousMatches)
+                //{
+                for (int i = 0; i < previousMatches.Count(); i++)
                 {
-                    return true;
+                    previousMatches[i].TryGetValue(playerOneId, out int value1);
+                    previousMatches[i].TryGetValue(playerTwoId, out int value2);
+                    if (value1 == playerTwoId || value2 == playerOneId)
+                    {
+                        return true;
+                    }
                 }
-                else
-                {
-                    return false;
-                }
+                //}
+                return false;
             }
+            var orderedPlayers = currentPlayers.OrderByDescending(p => p.Score).ToList();
+
+            int numberOfGames = orderedPlayers.Count / 2;
+
+            var bye = orderedPlayers.Find(p => p.FirstName == "Bye");
 
             //Assign players to games, create tables
             for (int i = 0; i < numberOfGames; i++)
@@ -153,39 +160,37 @@ namespace TournamentGenerator.Controllers
                 //get the highest scoring player, then remove them from the list
 
                 var playerOneId = orderedPlayers[0].Id;
-                orderedPlayers.Remove(orderedPlayers[0]);                
                 game.PlayerOneId = playerOneId;
+                orderedPlayers.Remove(orderedPlayers[0]);
 
                 //loop through all the other players and choose the highest scoring one who has not previously played the first chosen player
 
                 for (int j = 0; j < orderedPlayers.Count; j++)
                 {
-                   var playerTwoId = orderedPlayers[j].Id;
+                    var playerTwoId = orderedPlayers[j].Id;
 
-                    if (!hasBeenMatched(playerOneId, playerTwoId))
+                    if (!haveBeenMatched(playerOneId, playerTwoId))
                     {
                         game.PlayerTwoId = playerTwoId;
                         orderedPlayers.Remove(orderedPlayers[j]);
+                        j = orderedPlayers.Count() + 1;
+                        if (game.PlayerOneId == bye.Id)
+                        {
+                            game.PlayerTwoScore = 1;
+                        }
+                        else if (game.PlayerTwoId == bye.Id)
+                        {
+                            game.PlayerOneScore = 1;
+                        }
+                        _context.Add(game);
+                    await _context.SaveChangesAsync();
                     }
-
-                }             
-    
+                }
                 //The opponent of the bye player automatically wins
-                if (game.PlayerOneId == bye.Id)
-                {
-                    game.PlayerTwoScore = 1;
-                }
-                else if (game.PlayerTwoId == bye.Id)
-                {
-                    game.PlayerOneScore = 1;
-                }
-                _context.Add(game);
+                             
             }
-
-            await _context.SaveChangesAsync();
-
+                
             return RedirectToAction("IndexUncompleted", "Games");
-
         }
 
         // GET: Rounds/Create
