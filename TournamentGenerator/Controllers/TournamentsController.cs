@@ -37,8 +37,8 @@ namespace TournamentGenerator.Controllers
             }
             else
             {
-                var tournaments = await _context.Tournaments.ToListAsync();
-                return View(tournaments);
+                //var tournaments = await _context.Tournaments.ToListAsync();
+                return View("NotAuthenticated");
             }
         }
 
@@ -100,10 +100,12 @@ namespace TournamentGenerator.Controllers
         // GET: Tournaments/Create
         public IActionResult Create()
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return View("NotAuthenticated");
+            }
             return View("CreateTournament");
         }
-
-
 
         // POST: Tournaments/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -178,7 +180,7 @@ namespace TournamentGenerator.Controllers
             //Sort players randomly
 
             var rand = new Random();
-            var randomPlayers = unassignedPlayers.OrderBy(x => rand.NextDouble()).ToList();
+            var randomPlayers = unassignedPlayers.OrderBy(p => rand.NextDouble()).ToList();
             int numberOfGames = randomPlayers.Count / 2;
 
             var bye = randomPlayers.Find(p => p.FirstName == "Bye");
@@ -287,6 +289,12 @@ namespace TournamentGenerator.Controllers
             {
                 return NotFound();
             }
+            if (tournament.Id == TournamentState.currentTournament.Id)
+            {
+                TournamentState.currentTournament = null;
+            }
+
+
 
             return View(tournament);
         }

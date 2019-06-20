@@ -22,18 +22,120 @@ namespace TournamentGenerator.Controllers
 
         // GET: Games
         public async Task<IActionResult> Index()
+
         {
-            var applicationDbContext = _context.Games.Include(g => g.PhysicalTable).Include(g => g.PlayerOne).Include(g => g.PlayerTwo).Include(g => g.Round);
-            return View(await applicationDbContext.ToListAsync());
+            if (User.Identity.IsAuthenticated && State.TournamentState.currentTournament != null)
+            {
+                var applicationDbContext = _context.Games.Include(g => g.PhysicalTable).Include(g => g.PlayerOne).Include(g => g.PlayerTwo).Include(g => g.Round);
+                return View(await applicationDbContext.ToListAsync());
+            }
+            else if (!User.Identity.IsAuthenticated)
+            {
+                return View("NotAuthenticated");
+            }
+            else
+            {
+                return View("TournamentError");
+            }
         }
         public async Task<IActionResult> IndexUncompleted()
         {
-            var applicationDbContext = _context.Games.Include(g => g.PhysicalTable).Include(g => g.PlayerOne).Include(g => g.PlayerTwo).Include(g => g.Round).Where(g => g.PlayerOneScore == 0 && g.PlayerTwoScore == 0);
+            if (User.Identity.IsAuthenticated && State.TournamentState.currentTournament != null)
+            {
+                var games = await _context.Games.ToListAsync();
+                if (!games.Any())
+                {
+                    return View("NoGames");
+                }
+                var rounds = await _context.Rounds.ToListAsync();
+                var currentRounds = rounds
+                    .Where(r => r.TournamentId == State.TournamentState.currentTournament.Id);
+                var applicationDbContext = await _context.Games
+                    .Include(g => g.PhysicalTable)
+                    .Include(g => g.PlayerOne)
+                    .Include(g => g.PlayerTwo)
+                    .Include(g => g.Round)
+                    .Where(g => g.PlayerOneScore == 0 && g.PlayerTwoScore == 0).ToListAsync();
 
-            if (applicationDbContext.Count() == 0)
-                return View("GenerateRound");
+                var uncompletedGames = applicationDbContext
+                    .Where(g => g.Round.TournamentId == State.TournamentState.currentTournament.Id);
+                var currentGames = new List<Game>();
+                var players = await _context.Players.ToListAsync();
+                var currentPlayers = new List<Player>();
 
-            return View(await applicationDbContext.ToListAsync());
+                if (uncompletedGames.Count() == 0)
+                {
+                    return View("GenerateRound");
+                }
+                foreach (var currentRound in currentRounds)
+                {
+                    foreach (var game in games)
+                    {
+                        if (game.RoundId == currentRound.Id)
+                        {
+                            currentGames.Add(game);
+                        }
+                    }
+                }
+
+                foreach (var game in currentGames)
+                {
+                    foreach (var player in players)
+                    {
+                        if (game.PlayerOneId == player.Id && !currentPlayers.Contains(player))
+                        {
+                            {
+                                currentPlayers.Add(player);
+                            }
+                        }
+
+                        if (game.PlayerTwoId == player.Id && !currentPlayers.Contains(player))
+
+                        {
+                            currentPlayers.Add(player);
+                        }
+                    }
+
+                    foreach (var player in currentPlayers)
+                    {
+                        if (player.Id == game.PlayerOneId)
+                        {
+                            player.Score += game.PlayerOneScore;
+                        }
+                        if (player.Id == game.PlayerTwoId)
+                        {
+                            player.Score += game.PlayerTwoScore;
+                        }
+                    }
+
+                    foreach (var player in currentPlayers)
+                    {
+                        foreach (var currentGame in currentGames)
+                        {
+                            if (player.Id == currentGame.PlayerOneId)
+                            {
+                                currentGame.PlayerOne.Score = player.Score;
+                            }
+                            if (player.Id == currentGame.PlayerTwoId)
+                            {
+                                currentGame.PlayerTwo.Score = player.Score;
+                            }
+                        }
+
+                    }
+                   
+                }
+
+                return View(uncompletedGames);
+            }
+            else if (!User.Identity.IsAuthenticated)
+            {
+                return View("NotAuthenticated");
+            }
+            else
+            {
+                return View("TournamentError");
+            }
         }
 
         // GET: Games/Details/5
@@ -105,7 +207,7 @@ namespace TournamentGenerator.Controllers
             var playerTwo = players.SingleOrDefault(p => p.Id == game.PlayerTwoId);
 
             game.PlayerOne = playerOne;
-            game.PlayerTwo = playerTwo; 
+            game.PlayerTwo = playerTwo;
 
             if (game == null)
             {
@@ -148,7 +250,7 @@ namespace TournamentGenerator.Controllers
             else if (viewModel.Result == 3)
             {
                 viewModel.Game.PlayerOneScore = 0.5;
-                viewModel.Game.PlayerTwoScore = 0.5;               
+                viewModel.Game.PlayerTwoScore = 0.5;
             }
 
             if (ModelState.IsValid)

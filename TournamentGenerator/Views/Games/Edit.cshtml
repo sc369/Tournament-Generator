@@ -3,10 +3,10 @@
 @model TournamentGenerator.Models.ViewModels.GameViewModels.GameResultViewModel
 
 @{
-    ViewData["Title"] = "Enter Results";
+    ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+<h1>Enter Results</h1>
 
 <h4>Game</h4>
 <hr />
@@ -14,19 +14,21 @@
     <thead>
         <tr>
             <th>
-                PlayerOne
+                Player One
             </th>
             <th>
-                PlayerTwo
+                Player Two
             </th>
         </tr>
     </thead>
     <tbody>
         <tr>
             <td>
+                @Html.DisplayFor(model => model.Game.PlayerOne.FirstName)
                 @Html.DisplayFor(model => model.Game.PlayerOne.LastName)
             </td>
             <td>
+                @Html.DisplayFor(model => model.Game.PlayerTwo.FirstName)
                 @Html.DisplayFor(model => model.Game.PlayerTwo.LastName)
             </td>
         </tr>
@@ -75,8 +77,8 @@
                 </div>*@
             <select asp-for="Result" class="form-control" id="Result" name="Result">
                 <option>Select Result</option>
-                <option value="1">Player 1 Wins</option>
-                <option value="2">Player 2 Wins</option>
+                <option value="1">@Model.Game.PlayerOne.FirstName @Model.Game.PlayerOne.LastName wins</option>
+                <option value="2">@Model.Game.PlayerTwo.FirstName @Model.Game.PlayerTwo.LastName wins</option>
                 <option value="3">Draw</option>
             </select>
             <div hidden class="form-group">

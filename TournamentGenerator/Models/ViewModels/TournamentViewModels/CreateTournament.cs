@@ -18,12 +18,13 @@ namespace TournamentGenerator.Models.ViewModels.TournamentViewModels
 
         public string Location { get; set; }
 
-        [Display(Name = "Number of Rounds")]
+        [Display(Name = "Rounds")]
         [Required]
         public int NumberOfRounds { get; set; }            
-
+               
         [Required]
-        public int NumberOfPlayers { get; set; }
+        [Display(Name = "First Name")]
+
         public string FirstName { get; set; }
         [Required]
         [Display(Name = "Last Name")]

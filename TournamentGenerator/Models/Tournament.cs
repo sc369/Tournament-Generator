@@ -25,7 +25,7 @@ namespace TournamentGenerator.Models
 
         public string Location { get; set; }
 
-        [Display(Name = " ")]
+        [Display(Name = "Rounds")]
         [Required]
         public int NumberOfRounds { get; set; }
 

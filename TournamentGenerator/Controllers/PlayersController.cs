@@ -31,8 +31,6 @@ namespace TournamentGenerator.Controllers
             var players = await _context.Players.ToListAsync();
             var rounds = await _context.Rounds.ToListAsync();
             var games = await _context.Games.ToListAsync();
-
-
             var currentRounds = rounds.Where(r => r.TournamentId == State.TournamentState.currentTournament.Id).ToList();
             var currentGames = new List<Game>();
             var currentPlayers = new List<Player>();
@@ -87,6 +85,11 @@ namespace TournamentGenerator.Controllers
 
         public async Task<IActionResult> IndexUnassigned()
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return View("NotAuthenticated");
+            }
+
             var players = await _context.Players
                 .Include(p => p.MyGames)
                 .Include(p => p.TheirGames).ToListAsync();

@@ -96,7 +96,9 @@ namespace TournamentGenerator.Controllers
 
             Round round = new Round();
             round.TournamentId = State.TournamentState.currentTournament.Id;
-            round.Number = State.TournamentState.currentRound.Number + 1;
+                       
+            currentRounds.OrderByDescending(r => r.Number);
+            round.Number = currentRounds[0].Number;
             _context.Add(round);
             await _context.SaveChangesAsync();
 

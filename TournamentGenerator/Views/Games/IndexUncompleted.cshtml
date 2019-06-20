@@ -28,7 +28,7 @@
                 @Html.DisplayNameFor(model => model.PlayerTwoScore)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PhysicalTable)
+                Table
             </th>
             <th></th>
         </tr>
@@ -37,7 +37,7 @@
         @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Round.Id)
+                @Html.DisplayFor(modelItem => item.Round.Number)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.PlayerOne.LastName)
@@ -46,18 +46,18 @@
                 @Html.DisplayFor(modelItem => item.PlayerTwo.LastName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.PlayerOneScore)
+                @Html.DisplayFor(modelItem => item.PlayerOne.Score)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.PlayerTwoScore)
+                @Html.DisplayFor(modelItem => item.PlayerTwo.Score)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.PhysicalTable.Id)
+                @Html.DisplayFor(modelItem => item.PhysicalTable.Number)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.Id">Enter Result</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                @*<a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
             </td>
         </tr>
 }

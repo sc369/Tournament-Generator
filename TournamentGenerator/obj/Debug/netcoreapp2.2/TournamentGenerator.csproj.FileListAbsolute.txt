@@ -65,3 +65,7 @@ C:\Users\Stephen\source\repos\TournamentGenerator\TournamentGenerator\obj\Debug\
 C:\Users\Stephen\source\repos\TournamentGenerator\TournamentGenerator\obj\Debug\netcoreapp2.2\Razor\Views\Shared\CreateTournament.g.cshtml.cs
 C:\Users\Stephen\source\repos\TournamentGenerator\TournamentGenerator\obj\Debug\netcoreapp2.2\Razor\Views\Shared\TournamentError.g.cshtml.cs
 C:\Users\Stephen\source\repos\TournamentGenerator\TournamentGenerator\obj\Debug\netcoreapp2.2\Razor\Views\Shared\GenerateRound.g.cshtml.cs
+C:\Users\Stephen\source\repos\TournamentGenerator\TournamentGenerator\obj\Debug\netcoreapp2.2\Razor\Views\Tournaments\NotAuthenticated.g.cshtml.cs
+C:\Users\Stephen\source\repos\TournamentGenerator\TournamentGenerator\obj\Debug\netcoreapp2.2\Razor\Views\Players\NotAuthenticated.g.cshtml.cs
+C:\Users\Stephen\source\repos\TournamentGenerator\TournamentGenerator\obj\Debug\netcoreapp2.2\Razor\Views\Games\NoGames.g.cshtml.cs
+C:\Users\Stephen\source\repos\TournamentGenerator\TournamentGenerator\obj\Debug\netcoreapp2.2\Razor\Views\Games\NotAuthenticated - Copy.g.cshtml.cs
