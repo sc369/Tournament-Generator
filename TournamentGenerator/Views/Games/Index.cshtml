@@ -29,7 +29,7 @@
                 @Html.DisplayNameFor(model => model.PlayerTwoScore)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PhysicalTable)
+                Table
             </th>
             <th></th>
         </tr>
@@ -43,9 +43,11 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.PlayerOne.FirstName)
+                    @Html.DisplayFor(modelItem => item.PlayerOne.LastName)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.PlayerTwo.FirstName)
+                    @Html.DisplayFor(modelItem => item.PlayerTwo.LastName)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.PlayerOneScore)
@@ -54,7 +56,7 @@
                     @Html.DisplayFor(modelItem => item.PlayerTwoScore)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.PhysicalTable.Id)
+                    @Html.DisplayFor(modelItem => item.PhysicalTable.Number)
                 </td>
                 <td>
                     @*<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |*@

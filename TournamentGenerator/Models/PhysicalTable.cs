@@ -7,8 +7,7 @@ namespace TournamentGenerator.Models
         public class PhysicalTable
     {
         public int Id { get; set; }
-
-        [NotMapped]
+                
         public int Number { get; set; }
 
         public ICollection<Game> Games { get; set; }

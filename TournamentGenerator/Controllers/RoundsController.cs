@@ -96,9 +96,9 @@ namespace TournamentGenerator.Controllers
 
             Round round = new Round();
             round.TournamentId = State.TournamentState.currentTournament.Id;
-                       
-            currentRounds.OrderByDescending(r => r.Number);
-            round.Number = currentRounds[0].Number;
+
+            List<Round> sortedRounds = currentRounds.OrderByDescending(r => r.Number).ToList();
+            round.Number = sortedRounds[0].Number + 1;
             _context.Add(round);
             await _context.SaveChangesAsync();
 
@@ -149,12 +149,12 @@ namespace TournamentGenerator.Controllers
 
             int numberOfGames = orderedPlayers.Count / 2;
 
-            var bye = orderedPlayers.Find(p => p.FirstName == "Bye");
+            var bye = orderedPlayers.Find(p => p.LastName == "Bye");
 
             //Assign players to games, create tables
             for (int i = 0; i < numberOfGames; i++)
             {
-                currentTables.OrderBy(t => t.Id);
+                currentTables.OrderBy(t => t.Number);
                 var game = new Game();
                 game.PhysicalTableId = currentTables[i].Id;
                 game.RoundId = round.Id;

@@ -114,6 +114,21 @@ namespace TournamentGenerator.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,Date,Location,NumberOfRounds")] Tournament tournament)
         {
+
+            //Get players unassigned to games
+            var players = await _context.Players.ToListAsync();
+            var unassignedPlayers = players.Where(p => p.MyGames == null && p.TheirGames == null).ToList();
+
+            if (unassignedPlayers.Count < 6)
+            {
+                return View("NoPlayers");
+            }
+
+            if (tournament.NumberOfRounds > (unassignedPlayers.Count() + 1)/2)
+            {
+                return View("TooManyRounds");
+            }
+
             var user = await GetCurrentUserAsync();
 
             tournament.userId = user.Id;
@@ -138,29 +153,19 @@ namespace TournamentGenerator.Controllers
             }
 
             TournamentState.setcurrentTournament(tournament);
-            TournamentState.currentRound.Number = 1;
-
-            //Get players unassigned to games
-
-            var players = await _context.Players.ToListAsync();
-            var unassignedPlayers = players.Where(p => p.MyGames == null && p.TheirGames == null).ToList();
-
-            foreach (var item in TournamentState.currentPlayers)
-            {
-                Console.WriteLine(item.FirstName);
-            }
+            TournamentState.currentRound.Number = 1;                       
 
             // If number of players is odd, find or generate a 'bye' player
 
             if (unassignedPlayers.Count % 2 != 0)
             {
-                var byePlayerOrNull = players.SingleOrDefault(p => p.FirstName == "Bye");
+                var byePlayerOrNull = players.SingleOrDefault(p => p.LastName == "Bye");
                 if (byePlayerOrNull == null)
                 {
                     var byePlayer = new Player()
                     {
-                        FirstName = "Bye",
-                        LastName = "",
+                        FirstName = " ",
+                        LastName = "Bye",
                     };
                     _context.Add(byePlayer);
                     await _context.SaveChangesAsync();
@@ -183,21 +188,18 @@ namespace TournamentGenerator.Controllers
             var randomPlayers = unassignedPlayers.OrderBy(p => rand.NextDouble()).ToList();
             int numberOfGames = randomPlayers.Count / 2;
 
-            var bye = randomPlayers.Find(p => p.FirstName == "Bye");
+            var bye = randomPlayers.Find(p => p.LastName == "Bye");
 
             //Assign players to games, create tables
             for (int i = 0; i < numberOfGames; i++)
-            {
+            {                              
                 var newTable = new PhysicalTable();
+                newTable.Number = i + 1;
                 _context.Add(newTable);
                 await _context.SaveChangesAsync();
-                TournamentState.currentTables.Add(newTable);
-
-                var tables = await _context.PhysicalTables.ToListAsync();
-                tables.OrderBy(t => t.Id);
-
+                
                 var game = new Game();
-                game.PhysicalTableId = tables[i].Id;
+                game.PhysicalTableId = newTable.Id;
                 game.RoundId = round.Id;
                 game.PlayerOneId = randomPlayers[0].Id;
                 randomPlayers.Remove(randomPlayers[0]);

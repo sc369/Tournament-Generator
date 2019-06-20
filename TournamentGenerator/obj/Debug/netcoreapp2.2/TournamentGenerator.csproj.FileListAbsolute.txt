@@ -68,4 +68,7 @@ C:\Users\Stephen\source\repos\TournamentGenerator\TournamentGenerator\obj\Debug\
 C:\Users\Stephen\source\repos\TournamentGenerator\TournamentGenerator\obj\Debug\netcoreapp2.2\Razor\Views\Tournaments\NotAuthenticated.g.cshtml.cs
 C:\Users\Stephen\source\repos\TournamentGenerator\TournamentGenerator\obj\Debug\netcoreapp2.2\Razor\Views\Players\NotAuthenticated.g.cshtml.cs
 C:\Users\Stephen\source\repos\TournamentGenerator\TournamentGenerator\obj\Debug\netcoreapp2.2\Razor\Views\Games\NoGames.g.cshtml.cs
-C:\Users\Stephen\source\repos\TournamentGenerator\TournamentGenerator\obj\Debug\netcoreapp2.2\Razor\Views\Games\NotAuthenticated - Copy.g.cshtml.cs
+C:\Users\Stephen\source\repos\TournamentGenerator\TournamentGenerator\obj\Debug\netcoreapp2.2\Razor\Views\Shared\NotAuthenticated.g.cshtml.cs
+C:\Users\Stephen\source\repos\TournamentGenerator\TournamentGenerator\obj\Debug\netcoreapp2.2\Razor\Views\Games\NotAuthenticated.g.cshtml.cs
+C:\Users\Stephen\source\repos\TournamentGenerator\TournamentGenerator\obj\Debug\netcoreapp2.2\Razor\Views\Shared\NoPlayers.g.cshtml.cs
+C:\Users\Stephen\source\repos\TournamentGenerator\TournamentGenerator\obj\Debug\netcoreapp2.2\Razor\Views\Tournaments\TooManyRounds.g.cshtml.cs
