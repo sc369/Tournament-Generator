@@ -72,31 +72,6 @@ namespace TournamentGenerator.Controllers
             return View(tournament);
         }
 
-        //// GET: Tournaments/Create
-        //public IActionResult Create()
-        //{
-        //    ViewData["userId"] = new SelectList(_context.Users, "Id", "Id");
-        //    return View();
-        //}
-
-        // POST: Tournaments/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Create([Bind("Id,userId,Name,Date,Location,NumberOfRounds")] Tournament tournament)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        _context.Add(tournament);
-        //        await _context.SaveChangesAsync();
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    ViewData["userId"] = new SelectList(_context.Users, "Id", "Id", tournament.userId);
-        //    return View(tournament);
-        //}
-
-
         // GET: Tournaments/Create
         public IActionResult Create()
         {
@@ -116,8 +91,10 @@ namespace TournamentGenerator.Controllers
         {
 
             //Get players unassigned to games
-            var players = await _context.Players.ToListAsync();
-            var unassignedPlayers = players.Where(p => p.MyGames == null && p.TheirGames == null).ToList();
+            var players = await _context.Players
+    .Include(p => p.MyGames)
+    .Include(p => p.TheirGames).ToListAsync();
+            var unassignedPlayers = players.Where(p => p.MyGames == null || p.MyGames.Count() == 0 && p.TheirGames == null || p.TheirGames.Count() == 0).ToList();
 
             if (unassignedPlayers.Count < 6)
             {
@@ -287,17 +264,12 @@ namespace TournamentGenerator.Controllers
             var tournament = await _context.Tournaments
                 .Include(t => t.User)
                 .FirstOrDefaultAsync(m => m.Id == id);
+           TournamentState.currentTournament = null;
+            
             if (tournament == null)
             {
                 return NotFound();
-            }
-            if (tournament.Id == TournamentState.currentTournament.Id)
-            {
-                TournamentState.currentTournament = null;
-            }
-
-
-
+            }                            
             return View(tournament);
         }
 

@@ -8,7 +8,7 @@ namespace TournamentGenerator.State
 {
     public class TournamentState
     {
-            public static Tournament currentTournament;
+        public static Tournament currentTournament;
 
             public static Round currentRound = new Round();
             public static void setcurrentTournament(Tournament tournament)

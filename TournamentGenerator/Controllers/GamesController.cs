@@ -63,7 +63,14 @@ namespace TournamentGenerator.Controllers
                 var players = await _context.Players.ToListAsync();
                 var currentPlayers = new List<Player>();
 
-                if (uncompletedGames.Count() == 0)
+                var orderedRounds = currentRounds.OrderByDescending(p => p.Number).ToList();
+
+                if (orderedRounds[0].Number >= State.TournamentState.currentTournament.NumberOfRounds && uncompletedGames.Count() == 0)
+                {
+                    return View("ViewResults");
+                }
+
+                    if (uncompletedGames.Count() == 0)
                 {
                     return View("GenerateRound");
                 }

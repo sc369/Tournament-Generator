@@ -20,8 +20,70 @@ namespace TournamentGenerator.Controllers
             _context = context;
         }
 
+
         // GET: Players
         public async Task<IActionResult> Index()
+        {
+            if (State.TournamentState.currentTournament == null)
+            {
+                return View("TournamentError");
+            }
+
+            var players = await _context.Players.ToListAsync();
+            var rounds = await _context.Rounds.ToListAsync();
+            var games = await _context.Games.ToListAsync();
+            var currentRounds = rounds.Where(r => r.TournamentId == State.TournamentState.currentTournament.Id).ToList();
+            var currentGames = new List<Game>();
+            var currentPlayers = new List<Player>();
+            foreach (var currentRound in currentRounds)
+            {
+                foreach (var game in games)
+                {
+                    if (game.RoundId == currentRound.Id)
+                    {
+                        currentGames.Add(game);
+                    }
+                }
+            }
+
+            foreach (var game in currentGames)
+            {
+                foreach (var player in players)
+                {
+                    if (game.PlayerOneId == player.Id)
+                    {
+                        if (!currentPlayers.Contains(player))
+                        {
+                            currentPlayers.Add(player);
+                        }
+                    }
+                    if (game.PlayerTwoId == player.Id)
+                    {
+                        if (!currentPlayers.Contains(player))
+                        {
+                            currentPlayers.Add(player);
+                        }
+                    }
+                }
+            }
+            foreach (var game in currentGames)
+            {
+                foreach (var player in currentPlayers)
+                {
+                    if (player.Id == game.PlayerOneId)
+                    {
+                        player.Score += game.PlayerOneScore;
+                    }
+                    if (player.Id == game.PlayerTwoId)
+                    {
+                        player.Score += game.PlayerTwoScore;
+                    }
+                };
+            }
+
+            return View(currentPlayers.OrderByDescending(player => player.Score));
+        }
+        public async Task<IActionResult> PlayerStandings()
         {
             if (State.TournamentState.currentTournament == null)
             {
@@ -111,6 +173,8 @@ namespace TournamentGenerator.Controllers
             model.unassignedPlayers = unassignedPlayers;
             return View(model);
         }
+
+
 
         // GET: Players/Details/5
         public async Task<IActionResult> Details(int? id)

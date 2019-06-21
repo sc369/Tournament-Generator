@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Stephen\\source\\repos\\TournamentGenerator\\TournamentGenerator\\TournamentGenerator.csproj": {}
+    "C:\\Users\\Stephen\\source\\repos\\Tournament-Generator\\TournamentGenerator\\TournamentGenerator.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Stephen\\source\\repos\\TournamentGenerator\\TournamentGenerator\\TournamentGenerator.csproj": {
+    "C:\\Users\\Stephen\\source\\repos\\Tournament-Generator\\TournamentGenerator\\TournamentGenerator.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Stephen\\source\\repos\\TournamentGenerator\\TournamentGenerator\\TournamentGenerator.csproj",
+        "projectUniqueName": "C:\\Users\\Stephen\\source\\repos\\Tournament-Generator\\TournamentGenerator\\TournamentGenerator.csproj",
         "projectName": "TournamentGenerator",
-        "projectPath": "C:\\Users\\Stephen\\source\\repos\\TournamentGenerator\\TournamentGenerator\\TournamentGenerator.csproj",
+        "projectPath": "C:\\Users\\Stephen\\source\\repos\\Tournament-Generator\\TournamentGenerator\\TournamentGenerator.csproj",
         "packagesPath": "C:\\Users\\Stephen\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Stephen\\source\\repos\\TournamentGenerator\\TournamentGenerator\\obj\\",
+        "outputPath": "C:\\Users\\Stephen\\source\\repos\\Tournament-Generator\\TournamentGenerator\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -41,6 +41,14 @@
       "frameworks": {
         "netcoreapp2.2": {
           "dependencies": {
+            "EntityFramework": {
+              "target": "Package",
+              "version": "[6.2.0, )"
+            },
+            "Microsoft.AspNet.Identity.Core": {
+              "target": "Package",
+              "version": "[2.2.2, )"
+            },
             "Microsoft.AspNetCore.App": {
               "suppressParent": "All",
               "target": "Package",
@@ -61,6 +69,10 @@
             "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "target": "Package",
               "version": "[2.2.3, )"
+            },
+            "System.Data.SqlClient": {
+              "target": "Package",
+              "version": "[4.6.1, )"
             }
           },
           "imports": [
