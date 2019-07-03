@@ -131,8 +131,6 @@ namespace TournamentGenerator.Controllers
 
             bool haveBeenMatched(int playerOneId, int playerTwoId)
             {
-                //foreach (var item in previousMatches)
-                //{
                 for (int i = 0; i < previousMatches.Count(); i++)
                 {
                     previousMatches[i].TryGetValue(playerOneId, out int value1);
@@ -142,7 +140,7 @@ namespace TournamentGenerator.Controllers
                         return true;
                     }
                 }
-                //}
+
                 return false;
             }
             var orderedPlayers = currentPlayers.OrderByDescending(p => p.Score).ToList();
@@ -176,22 +174,26 @@ namespace TournamentGenerator.Controllers
                         game.PlayerTwoId = playerTwoId;
                         orderedPlayers.Remove(orderedPlayers[j]);
                         j = orderedPlayers.Count() + 1;
-                        if (game.PlayerOneId == bye.Id)
+                        if (bye != null)
                         {
-                            game.PlayerTwoScore = 1;
-                        }
-                        else if (game.PlayerTwoId == bye.Id)
-                        {
-                            game.PlayerOneScore = 1;
+
+                            if (game.PlayerOneId == bye.Id)
+                            {
+                                game.PlayerTwoScore = 1;
+                            }
+                            else if (game.PlayerTwoId == bye.Id)
+                            {
+                                game.PlayerOneScore = 1;
+                            }
                         }
                         _context.Add(game);
-                    await _context.SaveChangesAsync();
+                        await _context.SaveChangesAsync();
                     }
                 }
                 //The opponent of the bye player automatically wins
-                             
+
             }
-                
+
             return RedirectToAction("IndexUncompleted", "Games");
         }
 

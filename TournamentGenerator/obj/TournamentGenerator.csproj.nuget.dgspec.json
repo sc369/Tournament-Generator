@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Stephen\\source\\repos\\Tournament-Generator\\TournamentGenerator\\TournamentGenerator.csproj": {}
+    "C:\\Users\\Stephen\\source\\repos\\TournamentGenerator\\TournamentGenerator\\TournamentGenerator.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Stephen\\source\\repos\\Tournament-Generator\\TournamentGenerator\\TournamentGenerator.csproj": {
+    "C:\\Users\\Stephen\\source\\repos\\TournamentGenerator\\TournamentGenerator\\TournamentGenerator.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Stephen\\source\\repos\\Tournament-Generator\\TournamentGenerator\\TournamentGenerator.csproj",
+        "projectUniqueName": "C:\\Users\\Stephen\\source\\repos\\TournamentGenerator\\TournamentGenerator\\TournamentGenerator.csproj",
         "projectName": "TournamentGenerator",
-        "projectPath": "C:\\Users\\Stephen\\source\\repos\\Tournament-Generator\\TournamentGenerator\\TournamentGenerator.csproj",
+        "projectPath": "C:\\Users\\Stephen\\source\\repos\\TournamentGenerator\\TournamentGenerator\\TournamentGenerator.csproj",
         "packagesPath": "C:\\Users\\Stephen\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Stephen\\source\\repos\\Tournament-Generator\\TournamentGenerator\\obj\\",
+        "outputPath": "C:\\Users\\Stephen\\source\\repos\\TournamentGenerator\\TournamentGenerator\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

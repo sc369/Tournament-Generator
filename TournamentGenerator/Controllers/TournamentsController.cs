@@ -101,7 +101,7 @@ namespace TournamentGenerator.Controllers
                 return View("NoPlayers");
             }
 
-            if (tournament.NumberOfRounds > (unassignedPlayers.Count() + 1)/2)
+            if (tournament.NumberOfRounds > (unassignedPlayers.Count() + 1) / 2)
             {
                 return View("TooManyRounds");
             }
@@ -130,7 +130,7 @@ namespace TournamentGenerator.Controllers
             }
 
             TournamentState.setcurrentTournament(tournament);
-            TournamentState.currentRound.Number = 1;                       
+            TournamentState.currentRound.Number = 1;
 
             // If number of players is odd, find or generate a 'bye' player
 
@@ -169,12 +169,12 @@ namespace TournamentGenerator.Controllers
 
             //Assign players to games, create tables
             for (int i = 0; i < numberOfGames; i++)
-            {                              
+            {
                 var newTable = new PhysicalTable();
                 newTable.Number = i + 1;
                 _context.Add(newTable);
                 await _context.SaveChangesAsync();
-                
+
                 var game = new Game();
                 game.PhysicalTableId = newTable.Id;
                 game.RoundId = round.Id;
@@ -183,14 +183,17 @@ namespace TournamentGenerator.Controllers
                 game.PlayerTwoId = randomPlayers[0].Id;
                 randomPlayers.Remove(randomPlayers[0]);
 
-                //The opponent of the bye player automatically wins
-                if (game.PlayerOneId == bye.Id)
+                    //The opponent of the bye player automatically wins
+                if (bye != null)
                 {
-                    game.PlayerTwoScore = 1;
-                }
-                else if (game.PlayerTwoId == bye.Id)
-                {
-                    game.PlayerOneScore = 1;
+                    if (game.PlayerOneId == bye.Id)
+                    {
+                        game.PlayerTwoScore = 1;
+                    }
+                    else if (game.PlayerTwoId == bye.Id)
+                    {
+                        game.PlayerOneScore = 1;
+                    }
                 }
                 _context.Add(game);
             }
@@ -264,12 +267,12 @@ namespace TournamentGenerator.Controllers
             var tournament = await _context.Tournaments
                 .Include(t => t.User)
                 .FirstOrDefaultAsync(m => m.Id == id);
-           TournamentState.currentTournament = null;
-            
+            TournamentState.currentTournament = null;
+
             if (tournament == null)
             {
                 return NotFound();
-            }                            
+            }
             return View(tournament);
         }
 

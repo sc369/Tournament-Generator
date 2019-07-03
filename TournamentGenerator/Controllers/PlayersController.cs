@@ -211,7 +211,8 @@ namespace TournamentGenerator.Controllers
             {
                 _context.Add(player);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("IndexUnassigned");
+                //return RedirectToAction(nameof(Index));
             }
             return View(player);
         }

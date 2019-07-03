@@ -2958,6 +2958,11 @@
       "FileKind": "mvc"
     },
     {
+      "FilePath": "Views\\Games\\NoGames.cshtml",
+      "TargetPath": "Views\\Games\\NoGames.cshtml",
+      "FileKind": "mvc"
+    },
+    {
       "FilePath": "Views\\Tournaments\\Edit.cshtml",
       "TargetPath": "Views\\Tournaments\\Edit.cshtml",
       "FileKind": "mvc"
@@ -2993,13 +2998,28 @@
       "FileKind": "mvc"
     },
     {
+      "FilePath": "Views\\Tournaments\\TooManyRounds.cshtml",
+      "TargetPath": "Views\\Tournaments\\TooManyRounds.cshtml",
+      "FileKind": "mvc"
+    },
+    {
       "FilePath": "Views\\Home\\Privacy.cshtml",
       "TargetPath": "Views\\Home\\Privacy.cshtml",
       "FileKind": "mvc"
     },
     {
+      "FilePath": "Views\\Players\\PlayerStandings.cshtml",
+      "TargetPath": "Views\\Players\\PlayerStandings.cshtml",
+      "FileKind": "mvc"
+    },
+    {
       "FilePath": "Views\\PhysicalTables\\Index.cshtml",
       "TargetPath": "Views\\PhysicalTables\\Index.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "Views\\Shared\\NoPlayers.cshtml",
+      "TargetPath": "Views\\Shared\\NoPlayers.cshtml",
       "FileKind": "mvc"
     },
     {
@@ -3020,6 +3040,11 @@
     {
       "FilePath": "Views\\Players\\IndexUnassigned.cshtml",
       "TargetPath": "Views\\Players\\IndexUnassigned.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "Views\\Players\\NotAuthenticated.cshtml",
+      "TargetPath": "Views\\Players\\NotAuthenticated.cshtml",
       "FileKind": "mvc"
     },
     {
@@ -3045,6 +3070,11 @@
     {
       "FilePath": "Views\\PhysicalTables\\Delete.cshtml",
       "TargetPath": "Views\\PhysicalTables\\Delete.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "Views\\Shared\\TournamentError.cshtml",
+      "TargetPath": "Views\\Shared\\TournamentError.cshtml",
       "FileKind": "mvc"
     },
     {
@@ -3078,8 +3108,23 @@
       "FileKind": "mvc"
     },
     {
+      "FilePath": "Views\\Shared\\NotAuthenticated.cshtml",
+      "TargetPath": "Views\\Shared\\NotAuthenticated.cshtml",
+      "FileKind": "mvc"
+    },
+    {
       "FilePath": "Views\\_ViewStart.cshtml",
       "TargetPath": "Views\\_ViewStart.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "Views\\Shared\\GenerateRound.cshtml",
+      "TargetPath": "Views\\Shared\\GenerateRound.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "Views\\Shared\\ViewResults.cshtml",
+      "TargetPath": "Views\\Shared\\ViewResults.cshtml",
       "FileKind": "mvc"
     },
     {
@@ -3115,6 +3160,11 @@
     {
       "FilePath": "Views\\Games\\Index.cshtml",
       "TargetPath": "Views\\Games\\Index.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "Views\\Tournaments\\NotAuthenticated.cshtml",
+      "TargetPath": "Views\\Tournaments\\NotAuthenticated.cshtml",
       "FileKind": "mvc"
     },
     {
@@ -3155,6 +3205,11 @@
     {
       "FilePath": "Areas\\Identity\\Pages\\_ValidationScriptsPartial.cshtml",
       "TargetPath": "Areas\\Identity\\Pages\\_ValidationScriptsPartial.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "Views\\Games\\NotAuthenticated.cshtml",
+      "TargetPath": "Views\\Games\\NotAuthenticated.cshtml",
       "FileKind": "mvc"
     }
   ]

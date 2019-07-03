@@ -148,3 +148,5 @@ C:\Users\Stephen\source\repos\Tournament-Generator\TournamentGenerator\obj\Debug
 C:\Users\Stephen\source\repos\Tournament-Generator\TournamentGenerator\obj\Debug\netcoreapp2.2\TournamentGenerator.csproj.CopyComplete
 C:\Users\Stephen\source\repos\Tournament-Generator\TournamentGenerator\obj\Debug\netcoreapp2.2\Razor\Views\Shared\ViewResults.g.cshtml.cs
 C:\Users\Stephen\source\repos\Tournament-Generator\TournamentGenerator\obj\Debug\netcoreapp2.2\Razor\Views\Players\PlayerStandings.g.cshtml.cs
+C:\Users\Stephen\source\repos\TournamentGenerator\TournamentGenerator\obj\Debug\netcoreapp2.2\Razor\Views\Players\PlayerStandings.g.cshtml.cs
+C:\Users\Stephen\source\repos\TournamentGenerator\TournamentGenerator\obj\Debug\netcoreapp2.2\Razor\Views\Shared\ViewResults.g.cshtml.cs

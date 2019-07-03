@@ -10,8 +10,8 @@ using TournamentGenerator.Data;
 namespace TournamentGenerator.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190620185857_addtablenumber")]
-    partial class addtablenumber
+    [Migration("20190621125851_initialcreate")]
+    partial class initialcreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
